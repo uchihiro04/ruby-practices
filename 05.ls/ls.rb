@@ -27,41 +27,51 @@ require 'optparse'
 require 'etc'
 
 def main
-  params = ARGV.getopts('l')
-  dirs = Dir.glob('*')
-  params['l'] ? print_ls_command_l_option(dirs) : print_ls_command(dirs)
+  params = ARGV.getopts('alr')
+  filenames = collect_filenames(params)
+  output_of_dir(params, filenames)
 end
 
-def print_ls_command_l_option(dirs)
-  file_stats = create_file_stats(dirs)
+def collect_filenames(params)
+  files = params['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
+  files = files.reverse if params['r']
+  files
+end
+
+def output_of_dir(params, filenames)
+  params['l'] ? print_l_option(filenames) : print_ls_command(filenames)
+end
+
+def print_l_option(filenames)
+  file_stats = create_file_stats(filenames)
 
   show_the_total_number_of_blocks(file_stats)
 
-  sorted_file_stats = sort_file_stats(file_stats)
+  categorized_file_stats = categorize_file_stats(file_stats)
 
-  maximum_characters = fetch_maximum_number_of_characters(sorted_file_stats)
+  maximum_characters = fetch_maximum_number_of_characters(categorized_file_stats)
 
   show_file_details(file_stats, maximum_characters)
 end
 
-def print_ls_command(dirs)
+def print_ls_command(filenames)
   files = []
-  total_number_of_files = dirs.size
+  total_number_of_files = filenames.size
   number_of_lines = (total_number_of_files.to_f / MAXIMUM_COLUMN).ceil(0)
 
-  slice_the_file(dirs, number_of_lines, files)
+  slice_the_file(filenames, number_of_lines, files)
 
   align_the_number_of_elements(files, total_number_of_files)
 
   sorted_files = files.transpose
 
-  show_files(dirs, sorted_files)
+  show_files(filenames, sorted_files)
 end
 
-def create_file_stats(dirs)
+def create_file_stats(filenames)
   file_stats = []
-  dirs.each do |dir|
-    fs = File.lstat(dir)
+  filenames.each do |filename|
+    fs = File.lstat(filename)
     permitted_attributes = fs.mode.to_s(8).to_i.digits.take(3).reverse
     file_stat = {
       file_blocks: fs.blocks,
@@ -72,7 +82,7 @@ def create_file_stats(dirs)
       groupname: Etc.getgrgid(fs.gid).name,
       file_size: fs.size.to_s,
       update_date: fs.mtime.strftime('%_m %e %H:%M'),
-      file_name: dir
+      file_name: filename
     }
     file_stats << file_stat
   end
@@ -87,7 +97,7 @@ def show_the_total_number_of_blocks(file_stats)
   puts "total #{total_of_blocks}"
 end
 
-def sort_file_stats(file_stats)
+def categorize_file_stats(file_stats)
   {
     hard_link: file_stats.map { |file_stat| file_stat[:hard_link] },
     username: file_stats.map { |file_stat| file_stat[:username] },
@@ -116,8 +126,8 @@ def show_file_details(file_stats, maximum_characters)
   end
 end
 
-def slice_the_file(dirs, number_of_lines, files)
-  dirs.each_slice(number_of_lines) { |n| files << n }
+def slice_the_file(filenames, number_of_lines, files)
+  filenames.each_slice(number_of_lines) { |n| files << n }
 end
 
 def align_the_number_of_elements(files, total_number_of_files)
@@ -126,8 +136,8 @@ def align_the_number_of_elements(files, total_number_of_files)
   (MAXIMUM_COLUMN - total_number_of_files % MAXIMUM_COLUMN).to_i.times { files.last << nil }
 end
 
-def show_files(dirs, sorted_files)
-  longest_name = dirs.max_by(&:size)
+def show_files(filenames, sorted_files)
+  longest_name = filenames.max_by(&:size)
   margin = 6
   sorted_files.each do |sorted_file|
     sorted_file.each do |s|
