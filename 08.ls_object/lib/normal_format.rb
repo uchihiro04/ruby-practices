@@ -31,7 +31,7 @@ module Ls
       longest_filename = @files.max_by { |file| file.filename.size }.filename
       sorted_files.each do |sorted_file|
         sorted_file.each do |s|
-          next if s.nil?
+          break if s.nil?
 
           print s.filename.ljust(longest_filename.size + FILENAME_MARGIN)
         end
