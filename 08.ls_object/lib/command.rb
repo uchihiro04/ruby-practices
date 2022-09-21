@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'normal_format'
 
 module Ls
   class Command
-    def initialize(option = false)
+    def initialize(option = nil)
       @option = option
     end
 

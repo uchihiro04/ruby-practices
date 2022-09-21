@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require_relative 'file'
 
@@ -12,15 +13,13 @@ module Ls
 
     def lines
       total_files = @files.size
-      lines = (total_files.to_f / MAXIMUM_COLUMN).ceil(0)
+      (total_files.to_f / MAXIMUM_COLUMN).ceil(0)
     end
 
     def sliced_files
       files = []
       @files.each_slice(lines) { |n| files << n }
-      if @files.size >= MAXIMUM_COLUMN && @files.size % MAXIMUM_COLUMN != 0
-        (MAXIMUM_COLUMN - @files.size % MAXIMUM_COLUMN).to_i.times { files.last << nil }
-      end
+      (MAXIMUM_COLUMN - @files.size % MAXIMUM_COLUMN).to_i.times { files.last << nil } if @files.size >= MAXIMUM_COLUMN && @files.size % MAXIMUM_COLUMN != 0
       files
     end
 
@@ -33,6 +32,7 @@ module Ls
       sorted_files.each do |sorted_file|
         sorted_file.each do |s|
           next if s.nil?
+
           print s.filename.ljust(longest_filename.size + FILENAME_MARGIN)
         end
         puts

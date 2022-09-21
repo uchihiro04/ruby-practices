@@ -4,6 +4,4 @@
 require 'optparse'
 require_relative 'command'
 
-if __FILE__ == $PROGRAM_NAME
-  Ls::Command.new(ARGV).run_ls
-end
+Ls::Command.new(ARGV).run_ls if __FILE__ == $PROGRAM_NAME
