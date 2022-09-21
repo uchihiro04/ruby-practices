@@ -5,7 +5,7 @@ require_relative 'file'
 module Ls
   class NormalFormat
     MAXIMUM_COLUMN = 3
-    FILENAME_MARGIN = 4
+    FILENAME_MARGIN = 5
 
     def initialize
       @files = File.generate_file
