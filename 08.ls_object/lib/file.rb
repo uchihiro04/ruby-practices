@@ -8,9 +8,5 @@ module Ls
       @filename = filename
     end
 
-    def self.generate_file
-      filenames = Dir.glob('*')
-      filenames.map { |filename| Ls::File.new(filename) }
-    end
   end
 end
