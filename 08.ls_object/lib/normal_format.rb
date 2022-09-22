@@ -7,33 +7,33 @@ module Ls
     MAXIMUM_COLUMN = 3
     FILENAME_MARGIN = 5
 
-    def initialize
-      @files = File.generate_file
+    def initialize(filenames)
+      @filenames = filenames
     end
 
     def lines
-      total_files = @files.size
+      total_files = @filenames.size
       (total_files.to_f / MAXIMUM_COLUMN).ceil(0)
     end
 
-    def sliced_files
+    def sliced_filenames
       files = []
-      @files.each_slice(lines) { |n| files << n }
-      (MAXIMUM_COLUMN - @files.size % MAXIMUM_COLUMN).to_i.times { files.last << nil } if @files.size >= MAXIMUM_COLUMN && @files.size % MAXIMUM_COLUMN != 0
+      @filenames.each_slice(lines) { |n| files << n }
+      (MAXIMUM_COLUMN - @filenames.size % MAXIMUM_COLUMN).to_i.times { files.last << nil } if @filenames.size >= MAXIMUM_COLUMN && @filenames.size % MAXIMUM_COLUMN != 0
       files
     end
 
-    def sorted_files
-      sliced_files.transpose
+    def sorted_filenames
+      sliced_filenames.transpose
     end
 
     def show_files
-      longest_filename = @files.max_by { |file| file.filename.size }.filename
-      sorted_files.each do |sorted_file|
-        sorted_file.each do |s|
+      longest_filename = @filenames.max_by { |filename| filename.size }
+      sorted_filenames.each do |sorted_filename|
+        sorted_filename.each do |s|
           break if s.nil?
 
-          print s.filename.ljust(longest_filename.size + FILENAME_MARGIN)
+          print s.ljust(longest_filename.size + FILENAME_MARGIN)
         end
         puts
       end

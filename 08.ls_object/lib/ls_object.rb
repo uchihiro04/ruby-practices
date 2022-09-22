@@ -4,4 +4,5 @@
 require 'optparse'
 require_relative 'command'
 
-Ls::Command.new(ARGV).run_ls if __FILE__ == $PROGRAM_NAME
+params = ARGV.getopts('alr')
+Ls::Command.new(params).run_ls
