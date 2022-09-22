@@ -7,6 +7,5 @@ module Ls
     def initialize(filename)
       @filename = filename
     end
-
   end
 end
