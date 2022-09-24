@@ -29,16 +29,15 @@ module Ls
       sliced_filenames.transpose
     end
 
-    def show_files
+    def output_format
       longest_filename = @filenames.max_by(&:size)
-      sorted_filenames.each do |sorted_filename|
-        sorted_filename.each do |s|
-          break if s.nil?
-
-          print s.ljust(longest_filename.size + FILENAME_MARGIN)
-        end
-        puts
-      end
+      sorted_filenames.map do |row_filenames|
+        row_filenames.map do |filename|
+          filename = filename ? ::File.basename(filename) : ''
+          filename.ljust(longest_filename.size + FILENAME_MARGIN)
+        end.join.rstrip
+      end.join("\n")
     end
+
   end
 end
