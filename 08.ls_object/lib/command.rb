@@ -9,7 +9,7 @@ module Ls
     end
 
     def run_ls
-      ls_format = Ls::NormalFormat.new(filenames)
+      ls_format = LsFormatFactory.create(filenames, l_option?)
       ls_format.output_format
     end
 
@@ -24,6 +24,10 @@ module Ls
 
     def r_option?
       @option['r'] == true
+    end
+
+    def l_option?
+      @option['l'] == true
     end
   end
 end
