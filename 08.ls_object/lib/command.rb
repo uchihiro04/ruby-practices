@@ -12,6 +12,5 @@ module Ls
       ls_format = Ls::LsFormatFactory.create(@option)
       ls_format.output_format
     end
-
   end
 end

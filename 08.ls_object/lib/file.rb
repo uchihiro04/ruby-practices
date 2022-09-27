@@ -26,7 +26,7 @@ module Ls
     }.freeze
 
     attr_reader :pathname
-    
+
     def initialize(pathname)
       @pathname = pathname
     end
@@ -51,7 +51,7 @@ module Ls
     def hard_link
       stat(@pathname).nlink.to_s
     end
-    
+
     def username
       Etc.getpwuid(stat(@pathname).uid).name
     end
@@ -67,6 +67,5 @@ module Ls
     def update_time
       stat(@pathname).mtime.strftime('%_m %e %H:%M')
     end
-
   end
 end

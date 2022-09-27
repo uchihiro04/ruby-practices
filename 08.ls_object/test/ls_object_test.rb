@@ -5,7 +5,6 @@ require 'minitest/autorun'
 require_relative '../lib/ls_object'
 
 class LsObjectTest < Minitest::Test
-
   def test_ls
     displayed_files = <<~FILENAME
       dummy_file1.txt dummy_file3.txt
@@ -36,16 +35,16 @@ class LsObjectTest < Minitest::Test
 
   def test_ls_option_l
     params = { 'a' => false, 'l' => true, 'r' => false }
-    assert_output (`ls -l`) { puts Ls::Command.new(params).run_ls }
+    assert_output(`ls -l`) { puts Ls::Command.new(params).run_ls }
   end
 
   def test_ls_multi_options_rl
     params = { 'a' => false, 'l' => true, 'r' => true }
-    assert_output (`ls -lr`) { puts Ls::Command.new(params).run_ls }
+    assert_output(`ls -lr`) { puts Ls::Command.new(params).run_ls }
   end
 
   def test_ls_multi_options_lr
     params = { 'a' => false, 'l' => true, 'r' => true }
-    assert_output (`ls -rl`) { puts Ls::Command.new(params).run_ls }
+    assert_output(`ls -rl`) { puts Ls::Command.new(params).run_ls }
   end
 end

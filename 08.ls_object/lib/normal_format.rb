@@ -38,6 +38,5 @@ module Ls
         end.join.rstrip
       end.join("\n")
     end
-
   end
 end

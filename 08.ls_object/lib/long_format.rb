@@ -50,6 +50,5 @@ module Ls
         format_row(path).join
       end.join("\n")
     end
-    
   end
 end
