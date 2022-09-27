@@ -4,7 +4,7 @@ require 'etc'
 
 module Ls
   class File
-    FILE_TYPE = {
+    PATH_TYPE = {
       'fifo' => 'p',
       'characterSpecial' => 'c',
       'directory' => 'd',
@@ -25,47 +25,47 @@ module Ls
       '7' => 'rwx'
     }.freeze
 
-    attr_reader :filename
+    attr_reader :pathname
     
-    def initialize(filename)
-      @filename = filename
+    def initialize(pathname)
+      @pathname = pathname
     end
 
     def blocks
-      stat(@filename).blocks
+      stat(@pathname).blocks
     end
 
     def type
-      FILE_TYPE[stat(@filename).ftype]
+      PATH_TYPE[stat(@pathname).ftype]
     end
 
-    def stat(filename)
-      ::File.lstat(filename)
+    def stat(pathname)
+      ::File.lstat(pathname)
     end
 
     def permission
-      permission_number = stat(@filename).mode.to_s(8)[-3..-1]
+      permission_number = stat(@pathname).mode.to_s(8)[-3..-1]
       permission_number.gsub(/./, PERMISSION)
     end
 
     def hard_link
-      stat(@filename).nlink.to_s
+      stat(@pathname).nlink.to_s
     end
     
     def username
-      Etc.getpwuid(stat(@filename).uid).name
+      Etc.getpwuid(stat(@pathname).uid).name
     end
 
     def groupname
-      Etc.getgrgid(stat(@filename).gid).name
+      Etc.getgrgid(stat(@pathname).gid).name
     end
 
-    def file_size
-      stat(@filename).size.to_s
+    def pathsize
+      stat(@pathname).size.to_s
     end
 
     def update_time
-      stat(@filename).mtime.strftime('%_m %e %H:%M')
+      stat(@pathname).mtime.strftime('%_m %e %H:%M')
     end
 
   end

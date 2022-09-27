@@ -4,9 +4,9 @@ require_relative 'long_format'
 module Ls
   module LsFormatFactory
     def self.create(option)
-      filenames = option['a'] ? Dir.glob('*', ::File::FNM_DOTMATCH) : Dir.glob('*')
-      filenames = option['r'] ? filenames.reverse : filenames
-      option['l'] ? Ls::LongFormat.new(filenames) : Ls::NormalFormat.new(filenames)
+      pathnames = option['a'] ? Dir.glob('*', ::File::FNM_DOTMATCH) : Dir.glob('*')
+      pathnames = option['r'] ? pathnames.reverse : pathnames
+      option['l'] ? Ls::LongFormat.new(pathnames) : Ls::NormalFormat.new(pathnames)
     end
   end
 end
