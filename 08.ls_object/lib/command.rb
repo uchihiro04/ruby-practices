@@ -9,7 +9,7 @@ module Ls
     end
 
     def run_ls
-      ls_format = LsFormatFactory.create(@option)
+      ls_format = Ls::LsFormatFactory.create(@option)
       ls_format.output_format
     end
 
