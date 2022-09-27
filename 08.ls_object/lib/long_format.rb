@@ -8,26 +8,26 @@ module Ls
     end
 
     def total_blocks
-      @paths.sum { |path| path.blocks }
+      @paths.sum(&:blocks)
     end
 
     def max_hardlink_digits
-      hard_links = @paths.map { |path| path.hard_link }
+      hard_links = @paths.map(&:hard_link)
       hard_links.max_by(&:size).size
     end
 
     def max_username_digits
-      usernames = @paths.map { |path| path.username }
+      usernames = @paths.map(&:username)
       usernames.max_by(&:size).size
     end
 
     def max_groupname_digits
-      groupnames = @paths.map { |path| path.groupname }
+      groupnames = @paths.map(&:groupname)
       groupnames.max_by(&:size).size
     end
 
     def max_pathsize_digits
-      pathsizes = @paths.map { |path| path.pathsize }
+      pathsizes = @paths.map(&:pathsize)
       pathsizes.max_by(&:size).size
     end
 
