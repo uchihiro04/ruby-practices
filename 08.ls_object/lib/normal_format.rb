@@ -19,7 +19,7 @@ module Ls
     def sliced_filenames
       files = []
       @filenames.each_slice(lines) { |n| files << n }
-      if @filenames.size >= MAXIMUM_COLUMN && @filenames.size % MAXIMUM_COLUMN != 0
+      if files.size >= MAXIMUM_COLUMN && @filenames.size % MAXIMUM_COLUMN != 0
         (MAXIMUM_COLUMN - @filenames.size % MAXIMUM_COLUMN).to_i.times { files.last << nil }
       end
       files
