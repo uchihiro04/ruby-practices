@@ -38,13 +38,13 @@ class LsObjectTest < Minitest::Test
     assert_output(`ls -l`) { puts Ls::Command.new(params).run_ls }
   end
 
-  def test_ls_multi_options_rl
-    params = { 'a' => false, 'l' => true, 'r' => true }
-    assert_output(`ls -lr`) { puts Ls::Command.new(params).run_ls }
+  def test_ls_multi_options_alr
+    params = { 'a' => true, 'l' => true, 'r' => true }
+    assert_output(`ls -alr`) { puts Ls::Command.new(params).run_ls }
   end
 
-  def test_ls_multi_options_lr
-    params = { 'a' => false, 'l' => true, 'r' => true }
-    assert_output(`ls -rl`) { puts Ls::Command.new(params).run_ls }
+  def test_ls_multi_options_rla
+    params = { 'a' => true, 'l' => true, 'r' => true }
+    assert_output(`ls -rla`) { puts Ls::Command.new(params).run_ls }
   end
 end
