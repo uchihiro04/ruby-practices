@@ -4,7 +4,6 @@ require_relative 'file'
 
 module Ls
   class LongFormat
-    attr_reader :paths
     def initialize(pathnames)
       @paths = pathnames.map { |pathname| Ls::File.new(pathname) }
     end
