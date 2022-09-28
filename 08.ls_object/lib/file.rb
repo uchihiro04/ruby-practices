@@ -44,7 +44,7 @@ module Ls
     end
 
     def permission
-      permission_number = stat(@pathname).mode.to_s(8)[-3..-1]
+      permission_number = stat(@pathname).mode.to_s(8)[-3..]
       permission_number.gsub(/./, PERMISSION)
     end
 
