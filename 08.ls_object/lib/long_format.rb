@@ -8,6 +8,15 @@ module Ls
       @paths = pathnames.map { |pathname| Ls::File.new(pathname) }
     end
 
+    def output_format
+      puts "total #{total_blocks}"
+      @paths.map do |path|
+        format_row(path).join
+      end.join("\n")
+    end
+
+    private
+
     def total_blocks
       @paths.sum(&:blocks)
     end
@@ -43,13 +52,6 @@ module Ls
         " #{path.update_time}",
         " #{path.pathname}"
       ]
-    end
-
-    def output_format
-      puts "total #{total_blocks}"
-      @paths.map do |path|
-        format_row(path).join
-      end.join("\n")
     end
   end
 end

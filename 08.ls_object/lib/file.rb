@@ -39,10 +39,6 @@ module Ls
       PATH_TYPE[stat(@pathname).ftype]
     end
 
-    def stat(pathname)
-      ::File.lstat(pathname)
-    end
-
     def permission
       permission_number = stat(@pathname).mode.to_s(8)[-3..]
       permission_number.gsub(/./, PERMISSION)
@@ -66,6 +62,12 @@ module Ls
 
     def update_time
       stat(@pathname).mtime.strftime('%_m %e %H:%M')
+    end
+
+    private
+
+    def stat(pathname)
+      ::File.lstat(pathname)
     end
   end
 end

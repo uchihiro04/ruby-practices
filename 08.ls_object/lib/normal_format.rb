@@ -11,6 +11,18 @@ module Ls
       @pathnames = pathnames
     end
 
+    def output_format
+      longest_pathname = @pathnames.max_by(&:size)
+      sorted_pathnames.map do |row_pathnames|
+        row_pathnames.map do |pathname|
+          pathname = pathname ? ::File.basename(pathname) : ''
+          pathname.ljust(longest_pathname.size + PATHNAME_MARGIN)
+        end.join.rstrip
+      end.join("\n")
+    end
+
+    private
+
     def lines
       total_pathnames = @pathnames.size
       (total_pathnames.to_f / MAXIMUM_COLUMN).ceil(0)
@@ -27,16 +39,6 @@ module Ls
 
     def sorted_pathnames
       sliced_pathnames.transpose
-    end
-
-    def output_format
-      longest_pathname = @pathnames.max_by(&:size)
-      sorted_pathnames.map do |row_pathnames|
-        row_pathnames.map do |pathname|
-          pathname = pathname ? ::File.basename(pathname) : ''
-          pathname.ljust(longest_pathname.size + PATHNAME_MARGIN)
-        end.join.rstrip
-      end.join("\n")
     end
   end
 end
